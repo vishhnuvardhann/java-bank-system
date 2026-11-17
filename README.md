@@ -1,145 +1,304 @@
 # Bank Account Management System
 
-A Java application that manages Savings and Current accounts, records every transaction, and saves data between runs. It comes with a **Swing GUI** and a **menu-driven console** version that share the same core classes. Built as a Java mini project to demonstrate object-oriented programming.
+A desktop-based **Bank Account Management System built with Java Swing**. The project lets users create and manage Savings and Current accounts, perform banking transactions, and view transaction histories. It also includes a menu-driven console interface.
 
-No database and no external libraries are needed. Only the standard Java library is used.
+The application is designed as a Java mini-project to demonstrate **Object-Oriented Programming (OOP)**, exception handling, collections, file handling, and GUI event-driven programming.
+
+> **No database or third-party libraries required.** The project uses the standard Java library.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Technologies Used](#technologies-used)
+- [Requirements](#requirements)
+- [Getting Started](#getting-started)
+- [Running the Application](#running-the-application)
+- [Account Rules](#account-rules)
+- [Project Structure](#project-structure)
+- [OOP Concepts Demonstrated](#oop-concepts-demonstrated)
+- [Data Storage](#data-storage)
+- [Known Limitations](#known-limitations)
+- [Possible Improvements](#possible-improvements)
+- [Team](#team)
+
+---
 
 ## Features
 
-- Create **Savings** and **Current** accounts (account numbers start at 1001)
-- **Deposit**, **withdraw** and **transfer** money between accounts
-- Check balance and print a full **statement** (date, type, amount, balance)
-- List all accounts
-- Add **4% interest** to Savings accounts
-- Data is saved automatically to `bank.dat`, so accounts survive after you exit
-- **Swing GUI**: account table, dialogs for every action, statement window and a status bar
-- **Console version** with a numbered menu
-- Input validation: wrong input shows a message instead of crashing the program
+### Account Management
+- Create Savings and Current accounts.
+- Automatically generate account numbers, starting from `1001`.
+- View all registered accounts and their current balances.
 
-## Account rules
+### Banking Operations
+- Deposit money into an account.
+- Withdraw money subject to account balance rules.
+- Transfer money between two different accounts.
+- Check an account's balance.
+- Apply interest to a Savings account.
+- View a complete transaction statement.
 
-| Rule | Savings | Current |
-|---|---|---|
-| Minimum to open | 500 | 0 |
-| Minimum balance | 500 | -5000 (overdraft) |
-| Interest | 4% on request | None |
+### Graphical User Interface
+- Java Swing desktop interface.
+- Account information displayed in a table.
+- Dialog-based forms for account creation and transactions.
+- Select an account to perform operations.
+- Double-click an account row to open its statement.
+- Status messages and error dialogs for invalid operations.
+
+### Console Interface
+- A numbered, menu-driven interface.
+- Supports the same core banking operations as the GUI.
+
+### Data Persistence and Validation
+- Automatically saves account information and transaction history to `bank.dat`.
+- Reloads saved information when the application starts.
+- Validates transaction amounts and account rules.
+- Displays helpful error messages for invalid operations.
+
+---
+
+## Screenshots
+
+The GUI screenshot is available in the `docs` directory.
+
+![Bank Account Management System GUI](docs/gui.png)
+
+---
+
+## Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| Java | Core application logic |
+| Java Swing | Desktop graphical user interface |
+| Java AWT | GUI layout and event handling |
+| Java Collections | Managing accounts and transaction histories |
+| Java Serialization | Saving and loading application data |
+| Exception Handling | Handling invalid operations and insufficient funds |
+
+---
 
 ## Requirements
 
-- JDK 17 or newer (developed with JDK 21)
+- **JDK 17 or newer** (the project was developed with JDK 21).
+- A terminal or IDE such as Visual Studio Code, IntelliJ IDEA, or Eclipse.
 
-Check your version with `javac -version`.
+Check that Java and the Java compiler are installed:
 
-## Getting started
+```bash
+java -version
+javac -version
+```
+
+Both commands should display a version number. If `javac` is not recognized, install a JDK and configure its `bin` directory in your system's `PATH`.
+
+---
+
+## Getting Started
+
+### 1. Download or clone the repository
 
 ```bash
 git clone https://github.com/vishhnuvardhann/java-bank-system.git
+```
+
+### 2. Open the project folder
+
+```bash
 cd java-bank-system
+```
 
-# compile
+If you downloaded the ZIP file instead, extract it and open the extracted `java-bank-system` folder in your terminal or IDE.
+
+### 3. Compile the source files
+
+**Windows PowerShell:**
+
+```powershell
+New-Item -ItemType Directory -Force out | Out-Null
+$files = Get-ChildItem .\src\*.java | ForEach-Object { $_.FullName }
+javac -d .\out $files
+```
+
+**macOS / Linux:**
+
+```bash
+mkdir -p out
 javac -d out src/*.java
+```
 
-# run the GUI
+If compilation completes without errors, the compiled `.class` files will be placed in the `out` directory.
+
+---
+
+## Running the Application
+
+Run either interface from the project's root directory.
+
+### Option 1: Graphical Interface (Recommended)
+
+```bash
 java -cp out BankGUI
+```
 
-# or run the console version
+This opens the Bank Account Management System desktop window.
+
+### Option 2: Console Interface
+
+```bash
 java -cp out Main
 ```
 
-On Windows PowerShell, if `src/*.java` is not expanded, list the files instead:
+This starts the numbered console menu.
 
-```
-javac -d out src\Account.java src\Bank.java src\CurrentAccount.java src\InsufficientFundsException.java src\Main.java src\SavingsAccount.java src\Transaction.java
-```
+### Console Menu
 
-To start fresh with no accounts, delete `bank.dat`.
-
-## GUI
-
-![Bank GUI](docs/gui.png)
-
-1. Click **New Account** to create a Savings or Current account.
-2. Click a row in the table to select an account, then use **Deposit**, **Withdraw**, **Transfer** or **Add Interest**.
-3. Click **Statement**, or double-click a row, to see the full transaction history.
-4. Rule violations (for example going below the minimum balance) show an error dialog, and negative balances are shown in red.
-
-Every change is saved automatically to `bank.dat`.
-
-## Console menu
-
-```
-1. Create account   2. Deposit    3. Withdraw
-4. Transfer         5. Balance    6. Statement
-7. Add interest     8. All accounts   9. Exit
+```text
+1. Create account       2. Deposit
+3. Withdraw             4. Transfer
+5. Balance              6. Statement
+7. Add interest         8. All accounts
+9. Exit
 ```
 
-## Sample run
+---
 
-```
-Choose: 3        (withdraw)
-Account no: 1001
-Amount: 5000
-Error: Withdrawal denied. Minimum balance rule: 500.0
+## Account Rules
 
-Statement - Ravi (1001)
-Date             Type             Amount      Balance
-17-11-2026 10:30 OPENING         1000.00      1000.00
-17-11-2026 10:31 DEPOSIT          500.00      1500.00
-17-11-2026 10:32 WITHDRAW         900.00       600.00
-17-11-2026 10:33 INTEREST          24.00       624.00
-```
+The application supports two account types, each with its own balance restrictions.
 
-## Project structure
+| Rule | Savings Account | Current Account |
+|---|---:|---:|
+| Minimum opening balance | 500 | 0 |
+| Minimum permitted balance | 500 | -5,000 |
+| Interest | 4% when applied | Not applicable |
+| Overdraft facility | No | Up to 5,000 |
 
-```
+**Important notes:**
+- A Savings account must be opened with at least `500`.
+- A Savings account balance cannot fall below `500`.
+- A Current account can have a negative balance up to `-5,000`.
+- Deposits and withdrawals must be greater than zero.
+- Interest can be applied only to Savings accounts. It is added when the user selects **Add Interest**; it is not automatically applied on a schedule.
+
+---
+
+## Project Structure
+
+```text
 java-bank-system/
+│
 ├── src/
-│   ├── BankGUI.java                  Swing user interface
-│   ├── Account.java                  abstract base class: deposit, withdraw, history
-│   ├── SavingsAccount.java           min balance 500, 4% interest
-│   ├── CurrentAccount.java           overdraft up to 5000
-│   ├── Transaction.java              one statement line
-│   ├── InsufficientFundsException.java   custom checked exception
-│   ├── Bank.java                     stores accounts, transfers, save and load
-│   └── Main.java                     console menu, input validation, error handling
+│   ├── Account.java
+│   ├── Bank.java
+│   ├── BankGUI.java
+│   ├── CurrentAccount.java
+│   ├── InsufficientFundsException.java
+│   ├── Main.java
+│   ├── SavingsAccount.java
+│   └── Transaction.java
+│
 ├── docs/
-│   └── gui.png                       screenshot used in this README
-├── README.md
-└── .gitignore
+│   └── gui.png
+│
+├── .gitignore
+└── README.md
 ```
 
-## OOP concepts used
+### Main Classes
 
-| Concept | Where |
+| File | Responsibility |
 |---|---|
-| Abstraction | `Account` is abstract with abstract methods `getMinBalance()` and `getType()` |
-| Inheritance | `SavingsAccount` and `CurrentAccount` extend `Account` |
-| Polymorphism | `Account.withdraw()` calls `getMinBalance()`, which each subclass implements differently |
-| Encapsulation | Private fields with getters |
-| Exception handling | Custom `InsufficientFundsException`, plus handling of invalid input |
-| Collections | `LinkedHashMap` for accounts, `ArrayList` for transaction history |
-| File I/O | Object serialization to `bank.dat` |
-| GUI and event handling | `BankGUI` uses Swing (`JTable`, `JButton`, dialogs) with action and mouse listeners |
-| Separation of logic and UI | The GUI and the console both reuse `Bank` and `Account` without changes |
+| `Account.java` | Abstract base class containing common account details, balance operations, and transaction history |
+| `SavingsAccount.java` | Implements Savings account rules and interest calculation |
+| `CurrentAccount.java` | Implements Current account rules and overdraft limit |
+| `Transaction.java` | Represents an individual transaction |
+| `Bank.java` | Creates, stores, finds, and transfers between accounts; saves and loads bank data |
+| `BankGUI.java` | Provides the Java Swing graphical interface |
+| `Main.java` | Provides the console-based menu and user interaction |
+| `InsufficientFundsException.java` | Custom exception for transactions that violate balance restrictions |
 
-## Limitations
+---
 
-- No login or PIN
-- Single user at a time
-- Money is stored as `double` (a real system would use `BigDecimal`)
-- Saved data may become unreadable if the class fields are changed later
+## OOP Concepts Demonstrated
 
-## Future scope
+This project applies several core Object-Oriented Programming concepts.
 
-- Delete or close accounts from the GUI
-- A JavaFX version of the interface
-- PIN-based login
-- Database storage with JDBC and MySQL
-- Fixed deposit and loan accounts
+| Concept | Implementation |
+|---|---|
+| **Abstraction** | `Account` is an abstract class that defines common account behaviour. |
+| **Inheritance** | `SavingsAccount` and `CurrentAccount` extend `Account`. |
+| **Polymorphism** | Each account type provides its own implementation of `getMinBalance()` and `getType()`. |
+| **Encapsulation** | Account details are stored in fields and accessed through methods. |
+| **Exception Handling** | `InsufficientFundsException` and input validation handle invalid operations. |
+| **Collections** | `LinkedHashMap` stores accounts, while `ArrayList` stores transaction history. |
+| **File Handling** | Object serialization saves and restores bank data. |
+| **Event Handling** | Swing buttons, dialogs, and mouse listeners handle GUI interactions. |
+
+The GUI and console interfaces both use the same `Bank` and account classes. This keeps the banking logic separate from the user interface.
+
+---
+
+## Data Storage
+
+The application uses **Java Object Serialization** to store its data locally.
+
+- File name: `bank.dat`
+- Created automatically when the application saves data.
+- Stores account information and transaction histories.
+- Loaded automatically when the application starts.
+- Located in the working directory from which the application is launched.
+
+### Reset the Application
+
+To start with an empty set of accounts:
+
+1. Close the application.
+2. Delete `bank.dat` from the project directory.
+3. Run the application again.
+
+The application will create a fresh bank instance.
+
+> Keep a backup of `bank.dat` if you want to preserve your account data. This project is an educational demonstration, not a production banking system.
+
+---
+
+## Known Limitations
+
+- No user login, password, or PIN authentication.
+- Designed for a single local user.
+- Uses `double` for monetary values; production financial software should use a decimal-safe representation such as `BigDecimal`.
+- Uses a local serialized file instead of a database.
+- Serialized data may not remain compatible if the application's class structure changes.
+- No account deletion or account-closing feature.
+
+---
+
+## Possible Improvements
+
+- Add login and PIN-based authentication.
+- Introduce database connectivity using JDBC and MySQL.
+- Add account deletion and account-closing functionality.
+- Add search and filtering for accounts.
+- Improve transaction reporting and export statements.
+- Build an alternative interface using JavaFX.
+- Add Fixed Deposit and Loan account types.
+
+---
 
 ## Team
 
-- PandiPrajin
-- VishnuVardhan
-- S.Ahmed Thalha
+- **PandiPrajin**
+- **VishnuVardhan**
+- **S. Ahmed Thalha**
+
+---
+
+## Project Purpose
+
+This project was developed as a Java mini-project to demonstrate how OOP principles and core Java concepts can be combined to build a functional application with both graphical and console-based interfaces.
 
